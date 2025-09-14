@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cosmic Crasher</title>
+  <style>
+    :root{
+      --bg:#000;
+      --card:#111;
+      --muted:#222;
+      --accent:#fff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      background:var(--bg);
+      color:var(--accent);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    /* Common centered container */
+    .container{
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+
+    .box{
+      width:95%;
+      max-width:640px;
+      padding:32px;
+      background:var(--card);
+      border-radius:18px;
+      text-align:center;
+      box-shadow:0 8px 40px rgba(255,255,255,0.03);
+    }
+
+    h2{margin:16px 0 22px 0;font-size:28px;letter-spacing:0.5px}
+
+    /* VIDEO (Login) */
+    .login-video{
+      width:320px;      /* kontrol ukuran video di login */
+      height:320px;
+      object-fit:cover;
+      border-radius:14px;
+      margin:0 auto 18px auto;
+      display:block;
+      border:1px solid #333;
+      background:#000;
+    }
+
+    /* IMAGE (Attack) */
+    .attack-img{
+      width:320px;      /* ukuran foto di attack, kotak lebih besar */
+      height:320px;
+      object-fit:cover;
+      border-radius:18px;
+      margin:0 auto 18px auto;
+      display:block;
+      border:2px solid #333;
+    }
+
+    input, select{
+      width:100%;
+      height:56px;
+      padding:0 14px;
+      margin:12px 0;
+      border-radius:10px;
+      border:none;
+      background:var(--muted);
+      color:var(--accent);
+      font-size:16px;
+      outline:none;
+    }
+
+    button.primary{
+      width:100%;
+      padding:14px;
+      margin-top:12px;
+      border-radius:10px;
+      border:none;
+      background:#fff;
+      color:#000;
+      font-weight:700;
+      font-size:16px;
+      cursor:pointer;
+    }
+    button.primary:hover{opacity:.95}
+
+    /* navbar bawah */
+    .navbar{
+      display:flex;
+      justify-content:space-around;
+      align-items:center;
+      background:var(--card);
+      padding:12px 0;
+      border-top:1px solid #222;
+    }
+    .nav-item{flex:1;text-align:center;color:#aaa;text-decoration:none;font-size:14px}
+    .nav-item i{display:block;font-size:20px;margin-bottom:6px;color:#fff}
+
+    footer{padding:10px;text-align:center;color:#888;font-size:13px}
+
+    /* hidden class */
+    .hidden{display:none!important}
+
+    /* responsive */
+    @media (max-width:480px){
+      .login-video{width:220px;height:220px}
+      .attack-img{width:90%;height:220px}
+      .box{padding:22px}
+      h2{font-size:22px}
+    }
+  </style>
+  <!-- fontawesome CDN (opsional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- LOGIN PAGE -->
+  <div id="loginPage" class="container">
+    <div class="box">
+      <!-- video hanya di halaman login -->
+      <video id="loginVideo" class="login-video" autoplay muted loop playsinline>
+        <source src="https://files.catbox.moe/3kjvrj.mp4" type="video/mp4">
+        Browser tidak mendukung video.
+      </video>
+
+      <h2>Login Cosmic Crasher</h2>
+      <input id="username" type="text" placeholder="Username" />
+      <input id="password" type="password" placeholder="Password" />
+      <button class="primary" onclick="login()">Login</button>
+    </div>
+  </div>
+
+  <!-- ATTACK PAGE (hidden awalnya) -->
+  <div id="attackPage" class="hidden">
+    <header style="padding:24px;text-align:center;font-size:30px;font-weight:700;">Attack</header>
+
+    <div class="container">
+      <div class="box">
+        <!-- image (bukan video) di sini -->
+        <img src="https://files.catbox.moe/dztdc2.jpg" alt="Cosmic Crasher" class="attack-img">
+
+        <h2>Cosmic Crasher</h2>
+        <form onsubmit="event.preventDefault(); alert('Ini hanya demo UI — tidak ada aksi nyata')">
+          <input type="text" placeholder="Your Target Phone Number" />
+          <select>
+            <option disabled selected>-- Pilih Bug --</option>
+            <option>Bug 1</option>
+            <option>Bug 2</option>
+            <option>Bug 3</option>
+          </select>
+          <button class="primary" type="submit"><span style="font-weight:800;margin-right:8px">▶</span>Kirim Bug</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <a href="#" class="nav-item"><i class="fas fa-info-circle"></i>Info</a>
+      <a href="#" class="nav-item"><i class="fas fa-user-shield"></i>Acces Role</a>
+      <a href="#" class="nav-item"><i class="fas fa-bug"></i>Attacked</a>
+    </div>
+
+    <footer>© 2025 Cosmic Crasher</footer>
+  </div>
+
+  <script>
+    // login sederhana & video pause/resume handling
+    const loginPage = document.getElementById('loginPage');
+    const attackPage = document.getElementById('attackPage');
+    const loginVideo = document.getElementById('loginVideo');
+
+    function login(){
+      const u = document.getElementById('username').value.trim();
+      const p = document.getElementById('password').value.trim();
+
+      // contoh validation sederhana
+      if(u === 'admin' && p === '1234'){
+        // jeda video agar tidak jalan di background
+        if(loginVideo && !loginVideo.paused) {
+          try { loginVideo.pause(); } catch(e){ /* ignore */ }
+        }
+        loginPage.classList.add('hidden');
+        attackPage.classList.remove('hidden');
+        window.scrollTo(0,0);
+      } else {
+        alert('Username atau password salah!');
+      }
+    }
+
+    // Optional: jika user logout dan kembali ke login, resume video
+    function showLogin(){
+      attackPage.classList.add('hidden');
+      loginPage.classList.remove('hidden');
+      try { loginVideo.currentTime = 0; loginVideo.play(); } catch(e){}
+    }
+
+    // contoh: tekan ESC untuk logout (hanya demo)
+    document.addEventListener('keydown', e=>{
+      if(e.key === 'Escape' && !attackPage.classList.contains('hidden')) {
+        if(confirm('Logout dan kembali ke Login?')) showLogin();
+      }
+    });
+  </script>
+</body>
+</html>
